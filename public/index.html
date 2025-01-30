@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Demo Ollama and Deepseek with Node http server</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+    <div id="chat-container">
+        <h1>Chat with me :D</h1>
+        <div id="response-container"></div>
+        <div class="loading" id="loading">Generating response...</div>
+        <div id="input-container">
+            <input type="text" id="prompt-input" placeholder="Ask me anything...">
+            <button onclick="sendPrompt()">Send</button>
+            <button onclick="clearChat()">Clear</button>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <script>
+        // Update the MathJax configuration
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                ignoreHtmlClass: 'nostem|no-math'
+            },
+            startup: {
+                typeset: false
+            }
+        };
+    </script>
+    <!-- 3. MathJax script -->
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <!-- 4. Other scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/2.8.7/polyfill.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/styles/github.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.5.0/highlight.min.js"></script>
+    
+    <script src="./index.js"></script>
+
+</body>
+</html> 
