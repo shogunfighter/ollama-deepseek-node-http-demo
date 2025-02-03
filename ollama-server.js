@@ -4,7 +4,8 @@ const axios = require('axios');
 const cors = require('cors');
 
 require('dotenv').config({
-  path: path.join(__dirname, '.env-local') // Replace with your .env file
+  path: path.join(__dirname, '.env') // Replace with your .env file
+  // path: path.join(__dirname, '.env-local') // Replace with your .env file
 });
 
 const app = express();
@@ -43,18 +44,22 @@ app.post('/api/generate', async (req, res) => {
     }
 
 
-    const ollamaResponse = await axios.post(`${process.env.OLLAMA_HOST}${process.env.OLLAMA_API_PATH}`, {
+    const OLLAMA_URL= `http://${process.env.OLLAMA_HOST}${process.env.OLLAMA_API_PATH}`;
+    // console.log("==start==", OLLAMA_URL)
+    const ollamaResponse = await axios.post(OLLAMA_URL, {
       model,
       prompt,
       stream: true,
       temperature: 0.3,
       max_tokens: 2048
     }, { responseType: 'stream' });
+    // console.log("==response==")
 
     // Pipe Ollama's stream directly to client
     ollamaResponse.data.pipe(res);
 
   } catch (error) {
+    // console.log("==error==")
     console.error('Error:', error.message);
     res.status(500).json({ 
       error: error.response?.data?.error || 'Internal server error' 

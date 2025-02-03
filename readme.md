@@ -1,59 +1,64 @@
-### 1. Install the ollama app - think of it as a server to process the model 
-https://ollama.com/download
+### Prerequisite
 
-### 2. Let's pick a model (DeepSeek is shiny new :D) 
-- think of this as the AI model/brain to process queries with AI answers 
+Define the deepseek model that you would like to use. The bigger "b", the bigger hardware processing requirement. For starters, try the default (1.5b) to see faster results. 
 
-https://ollama.com/library/deepseek-r1
+To set this in this program, please modify the .env file:
+```
+# https://ollama.com/library/deepseek-r1
+DEEPSEEK_R1="deepseek-r1"
+DEEPSEEK_R1_VARIANT="1.5b" # 1.5b, 7b, 8b, 14b, 32b, 70b
 
-Pick any below depending on your CPU/GPU. The bigger "B", the bigger hardware processing requirement. For starters, try the first to see faster results.
+# New combined variable (format: model:version)
+AI_MODEL="${DEEPSEEK_R1}:${DEEPSEEK_R1_VARIANT}"
+```
 
-- DeepSeek-R1-Distill-Qwen-1.5B 
-<code>$ ollama run deepseek-r1:1.5b</code>
+[Deepseek r1 notes](https://ollama.com/library/deepseek-r1)
 
-- DeepSeek-R1-Distill-Qwen-7B
-<code>$ ollama run deepseek-r1:7b</code>
+| Name | Model |
+|-------|---------|
+| DeepSeek-R1-Distill-Qwen-1.5B | deepseek-r1:1.5b |
+| DeepSeek-R1-Distill-Qwen-7B | deepseek-r1:7b |
+| DeepSeek-R1-Distill-Llama-8B | deepseek-r1:8b |
+| DeepSeek-R1-Distill-Qwen-14B | deepseek-r1:14b |
+| DeepSeek-R1-Distill-Qwen-32B | deepseek-r1:32b |
+| DeepSeek-R1-Distill-Llama-70B | deepseek-r1:70b |
 
-- DeepSeek-R1-Distill-Llama-8B
-<code>$ ollama run deepseek-r1:8b</code>
 
-- DeepSeek-R1-Distill-Qwen-14B
-<code>$ ollama run deepseek-r1:14b</code>
+### 1. Build a docker container that uses Ollama | Deepseek
 
-- DeepSeek-R1-Distill-Qwen-32B
-<code>$ ollama run deepseek-r1:32b</code>
+This will utilize the setup variables in .env
 
-- DeepSeek-R1-Distill-Llama-70B
-<code>$ ollama run deepseek-r1:70b</code>
+```
+$ npm run docker:build
+$ npm run docker:up
+```
 
-Run the ollama application. This runs at default port=11434;
-Once ollama with the deepseek r1 model of your choice is running...
+This will take time since for the first try it will download the model. So check the logs when the model gets loaded successfully.
 
-### 3.1 Test Connection:
+### 2. Run our sample client service to communicate with the ollama server
+```
+$ npm run start-client-express-server
+```
 
-<code>$ curl http://127.0.0.1:11434/api/tags</code>
+### 3. Check connectivity
+
+### 3.1 Connection:
+```
+$ curl http://127.0.0.1:11434/api/tags
+
+Should return {"models":[]} if working
+```
 	
-#### Should return {"models":[]} if working
 
-### 3.2 Check Port Access:
-
+### 3.2 Port Access:
 :: Verify port 11434 is listening
+```
+$ netstat -ano | findstr :11434
+```
 
-<code>$ netstat -ano | findstr :11434</code>
-
-### 3.3 Let's check the source coude environment variables (usually .env file)
-
-### 4. Run our service. A simple HTTP service that send/receive data to our ollama application. This service has a UI for the chat. Simple stuff.
-    
-<code>$ npm start</code>
-
-### 5. Open browser: 
-
+### 4. Test in the browser
 <code>
     http://localhost:3000/
     <br />
     http://127.0.0.1:3000/
 </code>
-
-
-----

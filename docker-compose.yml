@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  ollama:
+    build: .
+    env_file: .env  # Load environment file
+    container_name: ollama
+    volumes:
+      - ollama:/root/.ollama
+    ports:
+      - "11434:11434"
+    networks:
+      - ollama-net
+    # No command needed - uses ENTRYPOINT from Dockerfile
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:11434"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+
+volumes:
+  ollama:
+
+networks:
+  ollama-net:
+    driver: bridge

@@ -1,9 +1,13 @@
 {
-  "name": "ollama",
+  "name": "ollama-demo",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node .\\ollama-server.js"
+    "start-client-express-server": "node .\\ollama-server.js",
+    "docker:down": "docker compose down -v",
+    "docker:build": "docker compose build --no-cache",
+    "docker:up": "docker compose up -d",
+    "docker:reset": "npm run docker:down && npm run docker:build && npm run docker:up"
   },
   "keywords": [],
   "author": "",
